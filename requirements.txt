@@ -1,5 +1,0 @@
-pandas
-requests
-flask
-pymongo
-logmatic-python
