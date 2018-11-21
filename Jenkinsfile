@@ -74,7 +74,7 @@ pipeline {
         sh 'rm -rf tng-devops || true'
         sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
         dir(path: 'tng-devops') {
-		  		  # sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv-ave.5gtango.eu component=tng-sdk-analyze-weight"'
+		  		  // sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv-ave.5gtango.eu component=tng-sdk-analyze-weight"'
 
         }
       }
