@@ -5,12 +5,12 @@ pipeline {
       parallel {
         stage('Container Build') {
           steps {
-            echo 'Building..'
+            echo 'Building...'
           }
         }
-		stage('Building tng-sdk-analysis-weight') {
+		stage('Building tng-sdk-analyze-weight') {
           steps {
-            sh 'docker build -t registry.sonata-nfv.eu:5000/tng-sdk-analysis-weight -f sla-template-generator/Dockerfile .'
+            sh 'docker build -t registry.sonata-nfv.eu:5000/tng-sdk-analyze-weight .'
           }
 		}
       }
@@ -19,12 +19,12 @@ pipeline {
       parallel {
         stage('Unit Tests') {
           steps {			
-            echo 'Unit Testing..'
+            echo 'Unit Testing...'
           }
         }
-        stage('Unit tests for tng-sdk-analysis-weight') {
+        stage('Unit tests for tng-sdk-analyze-weight') {
           steps {
-            sh 'mvn clean test -f sla-template-generator'
+            echo 'Not implemented yet...'
           }
         }
       }
@@ -36,9 +36,9 @@ pipeline {
             echo 'Code Style check....'
           }
         }
-        stage('Code check for tng-sdk-analysis-weight') {
+        stage('Code check for tng-sdk-analyze-weight') {
           steps {
-             sh 'mvn site -f sla-template-generator'
+             echo 'Not implemented yet...'
           }
         }
       }
@@ -50,9 +50,9 @@ pipeline {
             echo 'Publication of containers in local registry....'
           }
         }
-		stage('Publishing tng-sdk-analysis-weight') {
+		stage('Publishing tng-sdk-analyze-weight') {
           steps {
-            sh 'docker push registry.sonata-nfv.eu:5000/tng-sdk-analysis-weight'
+            sh 'docker push registry.sonata-nfv.eu:5000/tng-sdk-analyze-weight'
           }
 		}
       }
@@ -69,9 +69,10 @@ pipeline {
               steps {
                 sh 'rm -rf tng-devops || true'
                 sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
-                dir(path: 'tng-devops') {
-                  sh 'ansible-playbook roles/sp.yml -i environments -e "target=pre-int-sp host_key_checking=False component=sla-management"'
-                }
+                dir(path: 'tng-devops') {          
+				  sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv-bcn component=analyze-weight"'
+
+				}
               }
             }
           }
@@ -82,12 +83,13 @@ pipeline {
         branch 'master'
       }      
       steps {
-        sh 'docker tag registry.sonata-nfv.eu:5000/tng-sdk-analysis-weight:latest registry.sonata-nfv.eu:5000/tng-sdk-analysis-weight:int'
-        sh 'docker push registry.sonata-nfv.eu:5000/tng-sdk-analysis-weight:int'
+        sh 'docker tag registry.sonata-nfv.eu:5000/tng-sdk-analyze-weight:latest registry.sonata-nfv.eu:5000/tng-sdk-analyze-weight:int'
+        sh 'docker push registry.sonata-nfv.eu:5000/tng-sdk-analyze-weight:int'
         sh 'rm -rf tng-devops || true'
         sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
         dir(path: 'tng-devops') {
-		  sh 'ansible-playbook roles/sp.yml -i environments -e "target=int-sp component=sla-management"'
+		  		  sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv-ave component=analyze-weight"'
+
         }
       }
     }
