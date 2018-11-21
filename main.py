@@ -100,7 +100,7 @@ def train():
             json_result['correlations'] = json_result.pop('data')                      
             mongo_db.insert_docs(db_name, dict_coll, json_result)
     logger.info("Training Finished succesfully")
-    response = "{'response':'Training was successful. Correlation dictionaries were updated'}"
+    response = {'response':'Training was successful. Correlation dictionaries were updated'}
     return Response(json.dumps(response),  mimetype='application/json')
      
 @app.route('/tng-sdk-analyze-weight/api/weight/v1/<ns_uuid>', methods=['GET'])
