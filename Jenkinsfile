@@ -43,20 +43,6 @@ pipeline {
         }
       }
     }
-    stage('Containers Publication') {
-      parallel {
-        stage('Containers Publication') {
-          steps {
-            echo 'Publication of containers in local registry....'
-          }
-        }
-		stage('Publishing tng-sdk-analyze-weight') {
-          steps {
-            sh 'docker push registry.sonata-nfv.eu:5000/tng-sdk-analyze-weight'
-          }
-		}
-      }
-    }	
 	
 	stage('Deployment in Pre-Integration') {
           parallel {
@@ -70,7 +56,7 @@ pipeline {
                 sh 'rm -rf tng-devops || true'
                 sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
                 dir(path: 'tng-devops') {          
-				  sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv-bcn component=tng-sdk-analyze-weight"'
+				  sh 'ansible-playbook roles/vnv.yml -i environments -e "target=pre-int-vnv-bcn.5gtango.eu component=tng-sdk-analyze-weight"'
 
 				}
               }
@@ -88,11 +74,26 @@ pipeline {
         sh 'rm -rf tng-devops || true'
         sh 'git clone https://github.com/sonata-nfv/tng-devops.git'
         dir(path: 'tng-devops') {
-		  		  sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv-ave component=tng-sdk-analyze-weight"'
+		  		  # sh 'ansible-playbook roles/vnv.yml -i environments -e "target=int-vnv-ave.5gtango.eu component=tng-sdk-analyze-weight"'
 
         }
       }
     }
+	
+	stage('Containers Publication') {
+      parallel {
+        stage('Containers Publication') {
+          steps {
+            echo 'Publication of containers in local registry....'
+          }
+        }
+		stage('Publishing tng-sdk-analyze-weight') {
+          steps {
+            sh 'docker push registry.sonata-nfv.eu:5000/tng-sdk-analyze-weight'
+          }
+		}
+      }
+    }	
 
   }
   
