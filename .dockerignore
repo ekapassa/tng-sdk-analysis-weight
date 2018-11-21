@@ -1,0 +1,16 @@
+# Java
+*.class
+*.log
+*.project
+*.classpath
+*.pydevproject
+
+# Package Files
+*.jar
+!compass*
+
+# Maven
+target/
+.settings/
+
+
