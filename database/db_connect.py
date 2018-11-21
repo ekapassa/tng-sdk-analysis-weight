@@ -64,7 +64,7 @@ logger.setLevel(logging.DEBUG)
 
 def mongo_connect():
     client = MongoClient()
-    client = MongoClient(db_host, db_port)
+    client = MongoClient(db_host, int(db_port))
     return client
 
 def create_db(db_name):
