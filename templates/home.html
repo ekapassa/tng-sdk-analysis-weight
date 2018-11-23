@@ -39,40 +39,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>tng-sdk-analysis-weight</title>
+    <title>tng-sdk-analyze-weight</title>
 </head>
 <body>
     <h2>
-       5GTANGO SDK's Analysis Tool
+       5GTANGO SDK's Analyze Weights Tool
     </h2>
     
-    <h3>tng-sdk-analysis-weight Home Page</h3>
-    - URI: /api/weight/v1<br>
+    <h3>tng-sdk-analyze-weight Home Page</h3>
+    - URI: tng-sdk-analyze-weight/api/weight/v1<br>
     &nbsp;&nbsp;Method: GET<br>
     &nbsp;&nbsp;Purpose: Visit the home page (API Specification)
     
     <h3>Train</h3>
-    - URI: /api/weight/v1/train<br>
+    - URI: tng-sdk-analyze-weight/api/weight/v1/train<br>
     &nbsp;&nbsp;Method: GET<br>
     &nbsp;&nbsp;Purpose: Start Training for the local data sets
     
     <h3>Get weight for VNFs parameters</h3>
-    - URI: /api/weight/v1/<nsd_uuid><br>
+    - URI: tng-sdk-analyze-weight/api/weight/v1/<nsd_uuid><br>
     &nbsp;&nbsp;Method: GET<br>
     &nbsp;&nbsp;Purpose: Get correlated parameters for the VNFs in a NS
     
     <h3>Update a data set</h3>
-    - URI: /api/weight/v1/train/new/vnf/<vnf_type> -F 'file=@FileName.csv'<br>
+    - URI: tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/<vnf_type> -F 'file=@FileName.csv'<br>
     &nbsp;&nbsp;Method: POST/GET<br>
     &nbsp;&nbsp;Purpose: Upload a new dataset for a new VNF and store it locally
     
     <h3>Get weight factors for a VNF list</h3>
-    - URI: /api/weight/v1/vnftype?vnf_type=?,?,?,?,?<br>
+    - URI: tng-sdk-analyze-weight/api/weight/v1/vnftype?vnf_type=?,?,?,?,?<br>
     &nbsp;&nbsp;Method: GET<br>
     &nbsp;&nbsp;Purpose: Get Json result with the weight factors for all the provided VNF types
     
     <h3>Get supported VNF types</h3>
-    - URI: /api/weight/v1/mgmt/knownvnfs<br>
+    - URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs<br>
     &nbsp;&nbsp;Method: GET<br>
     &nbsp;&nbsp;Purpose: Get a list with the supported-known VNF types    
     
