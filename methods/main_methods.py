@@ -34,13 +34,17 @@ import pandas as pd
 import requests
 import os
 import json
-import logmatic
 import logging
+import matplotlib.pyplot as plt
 import database.db_connect as mongo_db
+import base64
+import numpy as np
+import database.db_connect as mongo_db
+from io import BytesIO
+
 
 UPLOAD_DADA_FOLDER = 'data'
 ALLOWED_EXTENSIONS = set(['csv'])
-
 
 cat_url = os.environ['CATALOGUES_URL']
 db_host = os.environ['DATABASE_HOST']
@@ -48,24 +52,20 @@ db_port = os.environ['DATABASE_PORT']
 db_name = os.environ['DATABASE_NAME']
 dict_coll = os.environ['DICT_COLL']
 unk_vnf_coll = os.environ['UNK_COLL']
+enc_fig_coll = os.environ['ENC_FIGS_COLL']
 log_level = os.environ['LOG_LEVEL']
 
-'''
-cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
-db_host = "mongo"
-db_port = 27017
-db_name = "tng-sdk-analyze-weight"
-dict_coll = "dictionaries"
-unk_vnf_coll = "unknown_vnfs"
-log_level = "INFO"
-'''
 
+# cat_url  = "http://pre-int-sp-ath.5gtango.eu:4011/catalogues/api/v2/"
+# db_host = "mongo"
+# db_port = 27017
+# db_name = "tng-sdk-analyze-weight"
+# dict_coll = "dictionaries"
+# unk_vnf_coll = "unknown_vnfs"
+# enc_fig_coll = "encoded_figs"
+# log_level = "INFO"
 
 logger = logging.getLogger()
-handler = logging.StreamHandler()
-handler.setFormatter(logmatic.JsonFormatter(extra={"hostname":"tng-sdk-analyze-weight"}))
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
 
 def get_redundant_pairs(df):
     '''Get diagonal and lower triangular pairs of correlation matrix'''
@@ -115,6 +115,7 @@ def extract_vnfs(nsd):
 
 def train_vnf(vnf_type, file_name):     
     d = pd.read_csv(UPLOAD_DADA_FOLDER+"\\"+file_name, index_col=0)
+    fig_to_base64(d, vnf_type)
     df = pd.DataFrame(data = d)
     result = get_top_abs_correlations(df, 5) 
     json_result = json.loads(result)            
@@ -137,6 +138,27 @@ def tsplit(string, delimiters):
                 stack.insert(i+j, _substring)           
     return stack
 
+def fig_to_base64(data, vnf_type):
+    #Create Figure with data provided
+    fig = plt.figure(num=None, figsize=(8, 6), dpi=75, facecolor='w', edgecolor='k')
+    corr = data.corr()    
+    ax = fig.add_subplot(111)
+    cax = ax.matshow(corr,cmap='coolwarm', vmin=-1, vmax=1)
+    fig.colorbar(cax)
+    ticks = np.arange(0,len(data.columns),1)
+    ax.set_xticks(ticks)
+    plt.xticks(rotation=90)
+    ax.set_yticks(ticks)
+    ax.set_xticklabels(data.columns)
+    ax.set_yticklabels(data.columns)
+    
+    #Encode figure to base64
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded = base64.b64encode(tmpfile.getvalue())
+    
+    mongo_db.add_fig_to_db(db_name, enc_fig_coll, encoded, vnf_type)
+        
 def file_validator(file_name):
     file_type = file_name[-3:]
     if file_type == "csv":
@@ -147,6 +169,9 @@ def file_validator(file_name):
 def get_file(file_name):
     exists = os.path.isfile(os.path.join(UPLOAD_DADA_FOLDER,file_name))
     return exists
+
+def close_figures():
+    plt.close('all')
     
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS

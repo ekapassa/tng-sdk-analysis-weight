@@ -53,6 +53,7 @@ ENV MONITORING_URL http://son-monitor-manager:8000/api/v1/
 # Set Db/Collections Environment Variables
 ENV DICT_COLL dictionaries
 ENV UNK_COLL unknown_vnfs
+ENV ENC_FIGS_COLL encoded_figs
 
 #Set Log Level Environment Variable
 ENV LOG_LEVEL INFO

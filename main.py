@@ -37,6 +37,8 @@ import database.db_connect as mongo_db
 import methods.main_methods as meth
 import logmatic
 import logging
+import warnings
+import matplotlib.pyplot as plt
 from classes.JsonEncoder import JSONEncoder as json_enc
 from flask import Flask,request,render_template,Response
 from fileinput import filename
@@ -45,33 +47,33 @@ from numpy.ma import extras
 app = Flask(__name__)
 
 UPLOAD_DADA_FOLDER = 'data'
+warnings.filterwarnings("ignore", module="matplotlib")
 
 cat_url = os.environ['CATALOGUES_URL']
 db_host = os.environ['DATABASE_HOST']
 db_port = os.environ['DATABASE_PORT']
 db_name = os.environ['DATABASE_NAME']
 dict_coll = os.environ['DICT_COLL']
+enc_fig_coll = os.environ['ENC_FIGS_COLL']
 unk_vnf_coll = os.environ['UNK_COLL']
 log_level = os.environ['LOG_LEVEL']
 
-'''
-cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
-db_host = "mongo"
-db_port = 27017
-db_name = "tng-sdk-analyze-weight"
-dict_coll = "dictionaries"
-unk_vnf_coll = "unknown_vnfs"
-log_level = "INFO"
-'''
 
-
-
+# cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
+# db_host = "mongo"
+# db_port = 27017
+# db_name = "tng-sdk-analyze-weight"
+# dict_coll = "dictionaries"
+# unk_vnf_coll = "unknown_vnfs"
+# enc_fig_coll = "encoded_figs"
+# log_level = "INFO"
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
 handler.setFormatter(logmatic.JsonFormatter(extra={"hostname":"tng-sdk-analyze-weight"}))
 logger.addHandler(handler)
 level = logging.getLevelName(log_level)
+enc_fig_coll = "encoded_figs"
 logger.setLevel(level)
 
 # Create a URL route in our application for "/"
@@ -80,15 +82,24 @@ def home():
     logger.info("Logging home end point")
     return render_template('home.html')
 
+# Create a URL route in our application for "/"
+@app.route('/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/<vnf_type>')
+def generate_fig_html(vnf_type):
+    logger.info("Logging Generating figure in html")
+    response = mongo_db.get_fig_base64(db_name, enc_fig_coll, vnf_type)
+    return render_template(response)
+
 @app.route('/tng-sdk-analyze-weight/api/weight/v1/train', methods=['GET'])
 def train():
     logger.warning("Logging training end point")
     mongo_db.drop_collection(db_name, dict_coll)
+    mongo_db.drop_collection(db_name, enc_fig_coll)
     logger.info("Call in mongo container")
     for root, dirs, files in os.walk(UPLOAD_DADA_FOLDER):
         for filename in files:     
             try:
                 d = pd.read_csv(UPLOAD_DADA_FOLDER+"/"+filename, index_col=0)
+                meth.fig_to_base64(d, filename[:-4])
             except IOError as e:
                 logging.error('An error occured', extra={"error": e})               
             df = pd.DataFrame(data = d)
@@ -98,9 +109,9 @@ def train():
             json_result['schema'] = vnf_name
             json_result['vnf'] = json_result.pop('schema')
             json_result['correlations'] = json_result.pop('data')                      
-            mongo_db.insert_docs(db_name, dict_coll, json_result)
+            mongo_db.insert_docs(db_name, dict_coll, json_result)        
     logger.info("Training Finished succesfully")
-    response = {'response':'Training was successful. Correlation dictionaries were updated'}
+    response = {'response':'Training was successful. Correlation dictionaries were updated'}      
     return Response(json.dumps(response),  mimetype='application/json')
      
 @app.route('/tng-sdk-analyze-weight/api/weight/v1/<ns_uuid>', methods=['GET'])
