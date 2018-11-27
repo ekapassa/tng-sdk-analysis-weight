@@ -75,21 +75,14 @@ logger.addHandler(handler)
 level = logging.getLevelName(log_level)
 enc_fig_coll = "encoded_figs"
 logger.setLevel(level)
-
+ 
+              
 # Create a URL route in our application for "/"
 @app.route('/tng-sdk-analyze-weight/api/weight/v1')
 def home():
     logger.info("Logging home end point")
     return render_template('home.html')
 
-# Create a URL route in our application for "/"
-@app.route('/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/<vnf_type>')
-def generate_fig_html(vnf_type):
-    logger.info("Logging Generating figure in html")
-    response = mongo_db.get_fig_base64(db_name, enc_fig_coll, vnf_type)
-    return render_template(response)
-
-@app.route('/tng-sdk-analyze-weight/api/weight/v1/train', methods=['GET'])
 def train():
     logger.warning("Logging training end point")
     mongo_db.drop_collection(db_name, dict_coll)
@@ -195,6 +188,16 @@ def vnf_dictionaries():
     logger.warning("Logging get supported VNF types")
     response = mongo_db.get_supported_vnfs(db_name, dict_coll)
     logger.info("Supported VNFs retrieved")
-    return Response(json.dumps(response),  mimetype='application/json')  
- 
-app.run(host='0.0.0.0', port=8084, debug=True)
+    return Response(json.dumps(response),  mimetype='application/json')
+
+# Create a URL route in our application for "/"
+@app.route('/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/<vnf_type>')
+def generate_fig_html(vnf_type):
+    logger.info("Logging Generating figure in html")
+    response = mongo_db.get_fig_base64(db_name, enc_fig_coll, vnf_type)
+    return render_template(response)  
+
+
+if __name__ == "__main__":
+    train()
+    app.run(host='0.0.0.0', port=8084, debug=True)

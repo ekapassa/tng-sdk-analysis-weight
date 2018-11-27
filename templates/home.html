@@ -43,18 +43,13 @@
 </head>
 <body>
     <h2>
-       5GTANGO SDK's Analyze Weights Tool
+       5GTANGO SDK's Analyze Weight Tool
     </h2>
     
     <h3>tng-sdk-analyze-weight Home Page</h3>
     - URI: tng-sdk-analyze-weight/api/weight/v1<br>
     &nbsp;&nbsp;Method: GET<br>
     &nbsp;&nbsp;Purpose: Visit the home page (API Specification)
-    
-    <h3>Train</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/train<br>
-    &nbsp;&nbsp;Method: GET<br>
-    &nbsp;&nbsp;Purpose: Start Training for the local data sets
     
     <h3>Get weight for VNFs parameters</h3>
     - URI: tng-sdk-analyze-weight/api/weight/v1/"nsd_uuid"<br>
@@ -74,7 +69,12 @@
     <h3>Get supported VNF types</h3>
     - URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs<br>
     &nbsp;&nbsp;Method: GET<br>
-    &nbsp;&nbsp;Purpose: Get a list with the supported-known VNF types    
+    &nbsp;&nbsp;Purpose: Get a list with the supported-known VNF types  
+    
+    <h3>Get correlation figure for a VNF</h3>
+    - URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/"vnf_type"<br>
+    &nbsp;&nbsp;Method: GET<br>
+    &nbsp;&nbsp;Purpose: Get Correlation Figure for the corresponding VNF  
     
 </body>
 </html>
