@@ -57,12 +57,12 @@
     &nbsp;&nbsp;Purpose: Start Training for the local data sets
     
     <h3>Get weight for VNFs parameters</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/<nsd_uuid><br>
+    - URI: tng-sdk-analyze-weight/api/weight/v1/"nsd_uuid"<br>
     &nbsp;&nbsp;Method: GET<br>
     &nbsp;&nbsp;Purpose: Get correlated parameters for the VNFs in a NS
     
-    <h3>Update a data set</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/<vnf_type> -F 'file=@FileName.csv'<br>
+    <h3>Upload a data set</h3>
+    - URI: tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"vnf_type" -F 'file=@FileName.csv'<br>
     &nbsp;&nbsp;Method: POST/GET<br>
     &nbsp;&nbsp;Purpose: Upload a new dataset for a new VNF and store it locally
     

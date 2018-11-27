@@ -59,7 +59,7 @@ unk_vnf_coll = os.environ['UNK_COLL']
 log_level = os.environ['LOG_LEVEL']
 
 
-# cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
+# cat_url  = "http://pre-int-sp-ath.5gtango.eu:4011/catalogues/api/v2/"
 # db_host = "mongo"
 # db_port = 27017
 # db_name = "tng-sdk-analyze-weight"

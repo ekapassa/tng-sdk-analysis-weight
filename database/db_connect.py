@@ -47,7 +47,6 @@ unk_vnf_coll = os.environ['UNK_COLL']
 enc_fig_coll = os.environ['ENC_FIGS_COLL']
 log_level = os.environ['LOG_LEVEL']
 
-
 # cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
 # db_host = "mongo"
 # db_port = 27017
@@ -64,7 +63,7 @@ def mongo_connect():
     try:
         client = MongoClient(db_host, 27017)
     except pymongo.errors.PyMongoError as e:
-        print ("Could not connect to server: %s" % e)
+        logger.error("Could not connect to database:",  extra={"error": e})
     return client
 
 def create_db(db_name):

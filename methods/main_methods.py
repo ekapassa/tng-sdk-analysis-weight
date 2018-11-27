@@ -152,6 +152,8 @@ def fig_to_base64(data, vnf_type):
     ax.set_xticklabels(data.columns)
     ax.set_yticklabels(data.columns)
     
+    plt.subplots_adjust(left=0.3, bottom=0.02, right=0.9, top=0.8, wspace=0.2, hspace=0.2)
+    
     #Encode figure to base64
     tmpfile = BytesIO()
     fig.savefig(tmpfile, format='png')
