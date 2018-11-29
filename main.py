@@ -38,11 +38,9 @@ import methods.main_methods as meth
 import logmatic
 import logging
 import warnings
-import matplotlib.pyplot as plt
 from classes.JsonEncoder import JSONEncoder as json_enc
 from flask import Flask,request,render_template,Response
 from fileinput import filename
-from numpy.ma import extras
 
 app = Flask(__name__)
 
@@ -188,6 +186,13 @@ def vnf_dictionaries():
     logger.warning("Logging get supported VNF types")
     response = mongo_db.get_supported_vnfs(db_name, dict_coll)
     logger.info("Supported VNFs retrieved")
+    return Response(json.dumps(response),  mimetype='application/json')
+
+@app.route('/tng-sdk-analyze-weight/api/weight/v1/mgmt/unknownvnfs', methods=['GET'])
+def vnf_unknown():
+    logger.warning("Logging get unsupported VNF types")
+    response = mongo_db.get_unsupported_vnfs(db_name, unk_vnf_coll)
+    logger.info("Unsupported VNFs retrieved")
     return Response(json.dumps(response),  mimetype='application/json')
 
 # Create a URL route in our application for "/"

@@ -39,7 +39,6 @@ import matplotlib.pyplot as plt
 import database.db_connect as mongo_db
 import base64
 import numpy as np
-import database.db_connect as mongo_db
 from io import BytesIO
 
 

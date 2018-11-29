@@ -4,3 +4,4 @@ flask
 pymongo
 logmatic-python
 matplotlib
+pyplot

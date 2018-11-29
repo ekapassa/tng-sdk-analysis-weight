@@ -32,10 +32,9 @@
 
 import json
 import os
-import logmatic
 import logging
 import pymongo
-from pymongo import MongoClient,errors
+from pymongo import MongoClient
 
 
 cat_url = os.environ['CATALOGUES_URL']
@@ -182,6 +181,22 @@ def not_in_db(db, collection, vnf):
     
     
 def get_supported_vnfs(db, collection):
+    documents_list = list()
+    vnfs_list = list()
+    client = mongo_connect()
+    mydb = client[db]
+    mycol = mydb[collection]
+       
+    cursor = mycol.find({})
+    for document in cursor:
+        documents_list.append(document)
+    
+    for field in documents_list:
+        vnfs_list.append(field['vnf']['vnf_id'])   
+    client.close()    
+    return vnfs_list
+
+def get_unsupported_vnfs(db, collection):
     documents_list = list()
     vnfs_list = list()
     client = mongo_connect()
