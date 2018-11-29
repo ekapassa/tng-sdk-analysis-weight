@@ -1,7 +1,7 @@
 pandas
+matplotlib
 requests
 flask
 pymongo
 logmatic-python
-matplotlib
-pyplot
+
