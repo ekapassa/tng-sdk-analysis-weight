@@ -150,7 +150,7 @@ def get_fig_base64(db, collection, vnf_type):
         with open('templates/'+vnf_type+'.html','w') as f:
             f.write(html)                   
     client.close()
-    return vnf_type+'.html'
+    return html
 
 def get_known_vnfs(db, collection,vnf_names):
     logger.info("Logging get known vnfs from Mongo " + str(vnf_names))
