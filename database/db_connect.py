@@ -75,7 +75,8 @@ def insert_docs(db, collection, doc):
     db = client[db]
     collection_doc = db[collection]
     
-    collection_doc.insert(doc)
+    #collection_doc.insert(doc)
+    collection_doc.update(doc, doc, upsert = True)
     client.close()
 
 def add_to_unknown(db, collection, vnfs):
@@ -84,16 +85,18 @@ def add_to_unknown(db, collection, vnfs):
     collection = db[collection]
     
     for vnf in vnfs:
-        collection.insert_one({'vnf_id': vnf})
+        #collection.insert_one({'vnf_id': vnf})
+        collection.update({'vnf_id': vnf}, {'vnf_id': vnf}, upsert = True)
     client.close()
 
 def add_fig_to_db(db, collection, encoded_fig, vnf_type):
     client = mongo_connect()
     db = client[db]
     collection = db[collection]
-    
-    collection.insert_one({'vnf_id': vnf_type,
-                           'encoded_fig': encoded_fig})
+    doc = {'vnf_id': vnf_type,'encoded_fig': encoded_fig}
+#     collection.insert_one({'vnf_id': vnf_type,
+#                            'encoded_fig': encoded_fig})
+    collection.update(doc, doc, upsert = True)
     client.close()
       
 def del_doc(db, collection, doc):
@@ -206,9 +209,9 @@ def get_unsupported_vnfs(db, collection):
     cursor = mycol.find({})
     for document in cursor:
         documents_list.append(document)
-    
+        
     for field in documents_list:
-        vnfs_list.append(field['vnf']['vnf_id'])   
+        vnfs_list.append(field['vnf_id'])   
     client.close()    
     return vnfs_list
 

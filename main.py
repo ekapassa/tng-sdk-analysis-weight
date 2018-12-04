@@ -41,6 +41,7 @@ import warnings
 from classes.JsonEncoder import JSONEncoder as json_enc
 from flask import Flask,request,render_template,Response
 from fileinput import filename
+from flask.helpers import send_from_directory
 
 app = Flask(__name__)
 
@@ -76,9 +77,29 @@ logger.setLevel(level)
  
               
 # Create a URL route in our application for "/"
-@app.route('/tng-sdk-analyze-weight/api/weight/v1')
+@app.route('/tng-sdk-analyze-weight/api/weight/v1/home')
 def home():
     logger.info("Logging home end point")
+    return render_template('index.html')
+
+@app.route('/tng-sdk-analyze-weight/api/weight/v1/mgmt')
+def mgmt():
+    logger.info("Logging home end point")
+    return render_template('mgmt.html')
+
+@app.route('/tng-sdk-analyze-weight/api/weight/v1/upload')
+def upload():
+    logger.info("Logging home end point")
+    return render_template('upload.html')
+
+@app.route('/tng-sdk-analyze-weight/api/weight/v1/weights')
+def weights():
+    logger.info("Logging weights end point")
+    return render_template('get_weights.html')
+
+@app.route('/tng-sdk-analyze-weight/api/weight/v1/apis')
+def apis():
+    logger.info("Logging apis end point")
     return render_template('home.html')
 
 def train():
@@ -146,16 +167,16 @@ def consume_train_data(vnf_type):
         logger.info("File validated and uploaded")
         meth.train_vnf(vnf_type, file_name)
         logger.info("Training for provided VNF started")
-        response = "{'response':'File was successfully uploaded. Train started '}"
+        response = {'response':'File was successfully uploaded. Train started '}
         return Response(json.dumps(response),  mimetype='application/json')
     if (file_validity == False ):
-        response = "{'response':'There was an error with the file.','error': 'File not .csv'}"  
+        response = {'response':'There was an error with the file.','error': 'File not .csv'} 
         return Response(json.dumps(response),  mimetype='application/json')  
     if (file_exist == True ):
-        response = "{'response':'There was an error with the file.','error': 'File already exists'}"  
+        response = {'response':'There was an error with the file.','error': 'File already exists'}  
         return Response(json.dumps(response),  mimetype='application/json')  
     if (mongo_db.not_in_db(db_name, dict_coll, vnf_type) == False ):
-        response = "{'response':'There was an error with the vnf type.','error': 'Vnf type already exists'}"  
+        response = {'response':'There was an error with the vnf type.','error': 'Vnf type already exists'}  
         return Response(json.dumps(response),  mimetype='application/json')
     logger.error("")
     return 
@@ -170,7 +191,7 @@ def correlated_vnf():
     dictionaries = mongo_db.get_documents(db_name, dict_coll,vnfs_list)
     known_vnfs = mongo_db.get_known_vnfs(db_name, dict_coll,vnfs_list)
     if len(dictionaries) == 0:
-        response = "{'response':'The provided VNFs are currently unknown. Try again later'}"   
+        response = {'response':'The provided VNFs are currently unknown. Try again later'}   
         mongo_db.add_to_unknown(db_name, unk_vnf_coll, vnfs_list)            
         return Response(json.dumps(response),  mimetype='application/json')
     if len(dictionaries) > 0 and len(dictionaries) < len(vnfs_list):        
