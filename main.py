@@ -41,31 +41,30 @@ import warnings
 from classes.JsonEncoder import JSONEncoder as json_enc
 from flask import Flask,request,render_template,Response
 from fileinput import filename
-from flask.helpers import send_from_directory
 
 app = Flask(__name__)
 
 UPLOAD_DADA_FOLDER = 'data'
 warnings.filterwarnings("ignore", module="matplotlib")
 
-cat_url = os.environ['CATALOGUES_URL']
-db_host = os.environ['DATABASE_HOST']
-db_port = os.environ['DATABASE_PORT']
-db_name = os.environ['DATABASE_NAME']
-dict_coll = os.environ['DICT_COLL']
-enc_fig_coll = os.environ['ENC_FIGS_COLL']
-unk_vnf_coll = os.environ['UNK_COLL']
-log_level = os.environ['LOG_LEVEL']
+# cat_url = os.environ['CATALOGUES_URL']
+# db_host = os.environ['DATABASE_HOST']
+# db_port = os.environ['DATABASE_PORT']
+# db_name = os.environ['DATABASE_NAME']
+# dict_coll = os.environ['DICT_COLL']
+# enc_fig_coll = os.environ['ENC_FIGS_COLL']
+# unk_vnf_coll = os.environ['UNK_COLL']
+# log_level = os.environ['LOG_LEVEL']
 
 
-# cat_url  = "http://pre-int-sp-ath.5gtango.eu:4011/catalogues/api/v2/"
-# db_host = "mongo"
-# db_port = 27017
-# db_name = "tng-sdk-analyze-weight"
-# dict_coll = "dictionaries"
-# unk_vnf_coll = "unknown_vnfs"
-# enc_fig_coll = "encoded_figs"
-# log_level = "INFO"
+cat_url  = "http://pre-int-sp-ath.5gtango.eu:4011/catalogues/api/v2/"
+db_host = "mongo"
+db_port = 27017
+db_name = "tng-sdk-analyze-weight"
+dict_coll = "dictionaries"
+unk_vnf_coll = "unknown_vnfs"
+enc_fig_coll = "encoded_figs"
+log_level = "INFO"
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
@@ -225,5 +224,6 @@ def generate_fig_html(vnf_type):
 
 
 if __name__ == "__main__":
+    mongo_db.drop_db()
     train()
     app.run(host='0.0.0.0', port=8084, debug=True)

@@ -37,23 +37,23 @@ import pymongo
 from pymongo import MongoClient
 
 
-cat_url = os.environ['CATALOGUES_URL']
-db_host = os.environ['DATABASE_HOST']
-db_port = os.environ['DATABASE_PORT']
-db_name = os.environ['DATABASE_NAME']
-dict_coll = os.environ['DICT_COLL']
-unk_vnf_coll = os.environ['UNK_COLL']
-enc_fig_coll = os.environ['ENC_FIGS_COLL']
-log_level = os.environ['LOG_LEVEL']
+# cat_url = os.environ['CATALOGUES_URL']
+# db_host = os.environ['DATABASE_HOST']
+# db_port = os.environ['DATABASE_PORT']
+# db_name = os.environ['DATABASE_NAME']
+# dict_coll = os.environ['DICT_COLL']
+# unk_vnf_coll = os.environ['UNK_COLL']
+# enc_fig_coll = os.environ['ENC_FIGS_COLL']
+# log_level = os.environ['LOG_LEVEL']
 
-# cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
-# db_host = "mongo"
-# db_port = 27017
-# db_name = "tng-sdk-analyze-weight"
-# dict_coll = "dictionaries"
-# unk_vnf_coll = "unknown_vnfs"
-# enc_fig_coll = "encoded_figs"
-# log_level = "INFO"
+cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
+db_host = "mongo"
+db_port = 27017
+db_name = "tng-sdk-analyze-weight"
+dict_coll = "dictionaries"
+unk_vnf_coll = "unknown_vnfs"
+enc_fig_coll = "encoded_figs"
+log_level = "INFO"
 
 logger = logging.getLogger()
 
@@ -61,10 +61,17 @@ def mongo_connect():
     client = MongoClient()
     try:
         client = MongoClient(db_host, 27017)
+        
     except pymongo.errors.PyMongoError as e:
         logger.error("Could not connect to database:",  extra={"error": e})
     return client
 
+def drop_db():
+    client = MongoClient(db_host, 27017)
+    client.drop_database(db_name)
+
+    client.close()
+    
 def create_db(db_name):
     client = mongo_connect()
     my_db = client[db_name]
@@ -93,10 +100,8 @@ def add_fig_to_db(db, collection, encoded_fig, vnf_type):
     client = mongo_connect()
     db = client[db]
     collection = db[collection]
-    doc = {'vnf_id': vnf_type,'encoded_fig': encoded_fig}
-#     collection.insert_one({'vnf_id': vnf_type,
-#                            'encoded_fig': encoded_fig})
-    collection.update(doc, doc, upsert = True)
+    collection.insert_one({'vnf_id': vnf_type,
+                            'encoded_fig': encoded_fig})
     client.close()
       
 def del_doc(db, collection, doc):
@@ -131,14 +136,12 @@ def get_documents(db, collection,vnf_names):
     client.close()
     return documents_list
 
-def get_fig_base64(db, collection, vnf_type):
-    
+def get_fig_base64(db, collection, vnf_type):    
     client = mongo_connect()
 
     mydb = client[db]
     mycol = mydb[collection]
        
-
     myquery = {'vnf_id': vnf_type}
     cursor = mycol.find(myquery)
     for document in cursor:        
