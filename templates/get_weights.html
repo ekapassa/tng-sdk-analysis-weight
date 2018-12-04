@@ -202,6 +202,7 @@
 			
 			vnfs_result.forEach(function(element) {
 				var vnf_id = element.vnf.vnf_id;
+				$("#vnfs_figs").append("<h1>"+vnf_id+"</div>");
 				$("#vnfs_figs").append(Get("http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/"+vnf_id));
 			});
 
