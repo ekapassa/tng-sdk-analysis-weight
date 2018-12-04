@@ -113,6 +113,8 @@
 	
 	<!-- JS Functions -->
 	<script>
+	//var host = "localhost";
+	var host = "pre-int-vnv-bcn.5gtango.eu";
 	function Get(yourUrl){
 		var Httpreq = new XMLHttpRequest(); // a new request
 		Httpreq.open("GET",yourUrl,false);
@@ -120,12 +122,10 @@
 		return Httpreq.responseText;          
 	}
 	
-	//var knownvnfs = JSON.parse(Get("http://localhost:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs"));
-	var knownvnfs = JSON.parse(Get("http://pre-int-vnv-bcn.5gtango.eu:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs"));
+	var knownvnfs = JSON.parse(Get("http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs"));
 	document.getElementById("knownvnfs").innerHTML = JSON.stringify(knownvnfs, undefined, 2);
 	
-	//var unknownvnfs = JSON.parse(Get("http://localhost:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/unknownvnfs"));
-	var unknownvnfs = JSON.parse(Get("http://pre-int-vnv-bcn.5gtango.eu:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/unknownvnfs"));
+	var unknownvnfs = JSON.parse(Get("http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/unknownvnfs"));
 	document.getElementById("unknownvnfs").innerHTML = JSON.stringify(unknownvnfs, undefined, 2);
 	</script>
 	</body>

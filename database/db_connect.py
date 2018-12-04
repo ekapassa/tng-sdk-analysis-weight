@@ -37,47 +37,43 @@ import pymongo
 from pymongo import MongoClient
 
 
-# cat_url = os.environ['CATALOGUES_URL']
-# db_host = os.environ['DATABASE_HOST']
-# db_port = os.environ['DATABASE_PORT']
-# db_name = os.environ['DATABASE_NAME']
-# dict_coll = os.environ['DICT_COLL']
-# unk_vnf_coll = os.environ['UNK_COLL']
-# enc_fig_coll = os.environ['ENC_FIGS_COLL']
-# log_level = os.environ['LOG_LEVEL']
+cat_url = os.environ['CATALOGUES_URL']
+db_host = os.environ['DATABASE_HOST']
+db_port = os.environ['DATABASE_PORT']
+db_name = os.environ['DATABASE_NAME']
+dict_coll = os.environ['DICT_COLL']
+unk_vnf_coll = os.environ['UNK_COLL']
+enc_fig_coll = os.environ['ENC_FIGS_COLL']
+log_level = os.environ['LOG_LEVEL']
 
-cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
-db_host = "mongo"
-db_port = 27017
-db_name = "tng-sdk-analyze-weight"
-dict_coll = "dictionaries"
-unk_vnf_coll = "unknown_vnfs"
-enc_fig_coll = "encoded_figs"
-log_level = "INFO"
+# cat_url  = "http://tng-cat:4011/catalogues/api/v2/"
+# db_host = "mongo"
+# db_port = 27017
+# db_name = "tng-sdk-analyze-weight"
+# dict_coll = "dictionaries"
+# unk_vnf_coll = "unknown_vnfs"
+# enc_fig_coll = "encoded_figs"
+# log_level = "INFO"
 
 logger = logging.getLogger()
 
 def mongo_connect():
+    logger.info("Logging Connection to Mongo")
     client = MongoClient()
     try:
-        client = MongoClient(db_host, 27017)
-        
+        client = MongoClient(db_host, 27017)       
     except pymongo.errors.PyMongoError as e:
         logger.error("Could not connect to database:",  extra={"error": e})
     return client
 
-def drop_db():
-    client = MongoClient(db_host, 27017)
-    client.drop_database(db_name)
-
-    client.close()
-    
 def create_db(db_name):
+    logger.info("Logging Create Db")
     client = mongo_connect()
     my_db = client[db_name]
     client.close()
 
 def insert_docs(db, collection, doc):
+    logger.info("Logging Insert Doc to Mongo " + str(doc))
     client = mongo_connect()
     db = client[db]
     collection_doc = db[collection]
@@ -87,6 +83,7 @@ def insert_docs(db, collection, doc):
     client.close()
 
 def add_to_unknown(db, collection, vnfs):
+    logger.info("Logging Insert unknown vnf to Mongo " + str(vnfs))
     client = mongo_connect()
     db = client[db]
     collection = db[collection]
@@ -97,6 +94,7 @@ def add_to_unknown(db, collection, vnfs):
     client.close()
 
 def add_fig_to_db(db, collection, encoded_fig, vnf_type):
+    logger.info("Logging base64 fig to Mongo " + str(vnf_type))
     client = mongo_connect()
     db = client[db]
     collection = db[collection]
@@ -105,6 +103,7 @@ def add_fig_to_db(db, collection, encoded_fig, vnf_type):
     client.close()
       
 def del_doc(db, collection, doc):
+    logger.info("Logging delete Doc from Mongo" + str(doc))
     client = mongo_connect()
     mydb = client[db]
     mycol = mydb[collection]
@@ -117,6 +116,7 @@ def del_doc(db, collection, doc):
     
 
 def get_documents(db, collection,vnf_names):
+    logger.info("Logging retrieve Docs to Mongo " + str(vnf_names))
     documents_list = list()
     client = mongo_connect()
 
@@ -136,7 +136,8 @@ def get_documents(db, collection,vnf_names):
     client.close()
     return documents_list
 
-def get_fig_base64(db, collection, vnf_type):    
+def get_fig_base64(db, collection, vnf_type):  
+    logger.info("Logging get fig base64 from Mongo" + str(vnf_type))  
     client = mongo_connect()
 
     mydb = client[db]
@@ -152,6 +153,7 @@ def get_fig_base64(db, collection, vnf_type):
     return vnf_type+'.html'
 
 def get_known_vnfs(db, collection,vnf_names):
+    logger.info("Logging get known vnfs from Mongo " + str(vnf_names))
     client = mongo_connect()
     known_vnfs = list()
     mydb = client[db]
@@ -170,6 +172,7 @@ def get_known_vnfs(db, collection,vnf_names):
     return known_vnfs
 
 def not_in_db(db, collection, vnf):
+    logger.info("Logging check if vnf exists in db " + vnf)
     client = mongo_connect()
     mydb = client[db]
     mycol = mydb[collection]
@@ -187,6 +190,7 @@ def not_in_db(db, collection, vnf):
     
     
 def get_supported_vnfs(db, collection):
+    logger.info("Logging get supported VNFS from " + str(collection))
     documents_list = list()
     vnfs_list = list()
     client = mongo_connect()
@@ -203,6 +207,7 @@ def get_supported_vnfs(db, collection):
     return vnfs_list
 
 def get_unsupported_vnfs(db, collection):
+    logger.info("Logging get unsupported VNFS from" + str(collection))
     documents_list = list()
     vnfs_list = list()
     client = mongo_connect()
@@ -219,6 +224,7 @@ def get_unsupported_vnfs(db, collection):
     return vnfs_list
 
 def drop_collection(db, collection):
+    logger.info("Logging drob collection" + str(collection))
     client = mongo_connect()
     mydb = client[db]
     collection_doc = mydb[collection].drop()

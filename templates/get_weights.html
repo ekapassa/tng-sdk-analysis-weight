@@ -157,6 +157,9 @@
 	
 	<!-- JS Functions -->
 	<script>
+	//var host = "localhost";
+    var host = "pre-int-vnv-bcn.5gtango.eu";
+    
 	function Get(yourUrl){
 		var Httpreq = new XMLHttpRequest();
 		Httpreq.open("GET",yourUrl,false);
@@ -164,8 +167,7 @@
 		return Httpreq.responseText;          
 	}
 	
-	//var knownvnfs = JSON.parse(Get("http://localhost:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs"));
-	var knownvnfs = JSON.parse(Get("http://pre-int-vnv-bcn.5gtango.eu:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs"));
+	var knownvnfs = JSON.parse(Get("http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs"));
 	document.getElementById("knownvnfs").innerHTML = JSON.stringify(knownvnfs, undefined, 2);
 		
 	$("#ns_uuid_button").click(function() {
@@ -174,15 +176,13 @@
 		
 		var ns_uuid = $("#ns_uuid").val();
 		if (ns_uuid != "") {
-			//var vnf_result = JSON.parse(Get("http://localhost:8084/tng-sdk-analyze-weight/api/weight/v1/"+ns_uuid));
-	        var vnf_result = JSON.parse(Get("http://pre-int-vnv-bcn.5gtango.eu:8084/tng-sdk-analyze-weight/api/weight/v1/"+ns_uuid));
+	        var vnf_result = JSON.parse(Get("http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/"+ns_uuid));
 
 			document.getElementById("vnf_result").innerHTML = JSON.stringify(vnf_result, undefined, 2);
 						
 			vnf_result.forEach(function(element) {
 				var vnf_id = element.vnf.vnf_id;
-                //$("#figs").append(Get("http://localhost:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/"+vnf_id));
-				$("#figs").append(Get("http://pre-int-vnv-bcn.5gtango.eu:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/"+vnf_id));
+				$("#figs").append(Get("http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/"+vnf_id));
 			});
 
 		}
@@ -195,16 +195,14 @@
 		var vnfs = $("#vnfs").val();
 		console.log(vnfs);
 		if (vnfs != "") {
-			//var vnfs_result = JSON.parse(Get("http://localhost:8084/tng-sdk-analyze-weight/api/weight/v1/vnftype?vnf_type="+vnfs));
-			var vnfs_result = JSON.parse(Get("http://pre-int-vnv-bcn.5gtango.eu:8084/tng-sdk-analyze-weight/api/weight/v1/vnftype?vnf_type="+vnfs));
+			var vnfs_result = JSON.parse(Get("http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/vnftype?vnf_type="+vnfs));
 			console.log(vnfs_result);
 			document.getElementById("vnfs_result").innerHTML = JSON.stringify(vnfs_result, undefined, 2);
 			
 			
 			vnfs_result.forEach(function(element) {
 				var vnf_id = element.vnf.vnf_id;
-				//$("#vnfs_figs").append(Get("http://localhost:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/"+vnf_id));
-				$("#vnfs_figs").append(Get("http://pre-int-vnv-bcn.5gtango.eu:8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/"+vnf_id));
+				$("#vnfs_figs").append(Get("http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/mgmt/fig/"+vnf_id));
 			});
 
 		}
