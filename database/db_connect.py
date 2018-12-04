@@ -147,7 +147,7 @@ def get_fig_base64(db, collection, vnf_type):
     cursor = mycol.find(myquery)
     for document in cursor:        
         html = "<img src=\"data:image/png;base64,"+document['encoded_fig'].decode('utf-8')+"\"\>"
-        with open('templates\\'+vnf_type+'.html','w') as f:
+        with open('templates/'+vnf_type+'.html','w') as f:
             f.write(html)                   
     client.close()
     return vnf_type+'.html'
