@@ -221,7 +221,7 @@ def vnf_unknown():
 def generate_fig_html(vnf_type):
     logger.info("Logging Generating figure in html")
     response = mongo_db.get_fig_base64(db_name, enc_fig_coll, vnf_type)
-    return '<html><head></head><body>' + response + '</body></html>'
+    return response
 
 
 if __name__ == "__main__":
