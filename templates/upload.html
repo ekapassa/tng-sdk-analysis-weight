@@ -122,7 +122,7 @@
 		  var oData = new FormData(form);
 		  var oReq = new XMLHttpRequest();
 		  
-		  oReq.open("POST", "http://localhost:8084/tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"+vnf_id, true);
+		  oReq.open("POST", "http://pre-int-vnv-bcn.5gtango.eu:8084/tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"+vnf_id, true);
 		  oReq.onload = function(oEvent) {
 			document.getElementById("upload_result").innerHTML = JSON.stringify(oReq.response, undefined, 2);
 		  };
