@@ -146,7 +146,7 @@ def get_fig_base64(db, collection, vnf_type):
     myquery = {'vnf_id': vnf_type}
     cursor = mycol.find(myquery)
     for document in cursor:        
-        html = "<h1>"+vnf_type+"</h1"+"<img src=\"data:image/png;base64,"+document['encoded_fig'].decode('utf-8')+"\"\>"                         
+        html = "<img src=\"data:image/png;base64,"+document['encoded_fig'].decode('utf-8')+"\"\>"                         
     client.close()
     return html
 
