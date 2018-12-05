@@ -40,47 +40,55 @@
 <head>
     <meta charset="UTF-8">
     <title>tng-sdk-analyze-weight</title>
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-    <h2>
-       5GTANGO SDK's Analyze Weight Tool
-    </h2>
-    
+
+	<div class="page-header">
+		<center><h1>5GTANGO SDK's Analyze Weight Tool</h1></center>
+	</div>
+	</br>
+	
     <h3>tng-sdk-analyze-weight Home Page</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1<br>
-    &nbsp;&nbsp;Method: GET<br>
-    &nbsp;&nbsp;Purpose: Visit the home page (API Specification)
+    <var>- URI: tng-sdk-analyze-weight/api/weight/v1/home</br></var>
+    <var>&nbsp;&nbsp;Method: GET<br></var>
+    <var>&nbsp;&nbsp;Purpose: Visit the home page</var>
+    </br></br>
+	
+    <h3>Get weight for VNFs in a Network Service</h3>
+    <var>- URI: tng-sdk-analyze-weight/api/weight/v1/"nsd_uuid"<br></var>
+    <var>&nbsp;&nbsp;Method: GET<br></var>
+    <var>&nbsp;&nbsp;Purpose: Get correlated parameters for the VNFs in a NS</var>
+    </br></br>
     
-    <h3>Get weight for VNFs parameters</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/"nsd_uuid"<br>
-    &nbsp;&nbsp;Method: GET<br>
-    &nbsp;&nbsp;Purpose: Get correlated parameters for the VNFs in a NS
+	<h3>Upload a data set</h3>
+    <var>- URI: tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"vnf_type" -F 'file=@FileName.csv'<br></var>
+    <var>&nbsp;&nbsp;Method: POST/GET<br></var>
+    <var>&nbsp;&nbsp;Purpose: Upload a new dataset for a new VNF and store it locally</var>
+    </br></br>
     
-    <h3>Upload a data set</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"vnf_type" -F 'file=@FileName.csv'<br>
-    &nbsp;&nbsp;Method: POST/GET<br>
-    &nbsp;&nbsp;Purpose: Upload a new dataset for a new VNF and store it locally
+	<h3>Get weight factors for a VNF list</h3>
+    <var>- URI: tng-sdk-analyze-weight/api/weight/v1/vnftype?vnf_type=?,?,?,?,?<br></var>
+    <var>&nbsp;&nbsp;Method: GET<br></var>
+    <var>&nbsp;&nbsp;Purpose: Get Json result with the weight factors for all the provided VNF types</var>
+    </br></br>
     
-    <h3>Get weight factors for a VNF list</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/vnftype?vnf_type=?,?,?,?,?<br>
-    &nbsp;&nbsp;Method: GET<br>
-    &nbsp;&nbsp;Purpose: Get Json result with the weight factors for all the provided VNF types
+	<h3>Get supported VNF types</h3>
+    <var>- URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs<br></var>
+    <var>&nbsp;&nbsp;Method: GET<br></var>
+    <var>&nbsp;&nbsp;Purpose: Get a list with the supported-known VNF types  </var>
+    </br></br>
     
-    <h3>Get supported VNF types</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/knownvnfs<br>
-    &nbsp;&nbsp;Method: GET<br>
-    &nbsp;&nbsp;Purpose: Get a list with the supported-known VNF types  
+	<h3>Get unsupported-unknown VNF types</h3>
+    <var>- URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/unknownvnfs<br></var>
+    <var>&nbsp;&nbsp;Method: GET<br></var>
+    <var>&nbsp;&nbsp;Purpose: Get a list with the unsupported-unknown VNF types </var>
+    </br></br>
     
-    <h3>Get unsupported-unknown VNF types</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/unknownvnfs<br>
-    &nbsp;&nbsp;Method: GET<br>
-    &nbsp;&nbsp;Purpose: Get a list with the unsupported-unknown VNF types 
-    
-    <h3>Get correlation figure for a VNF</h3>
-    - URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/"vnf_type"<br>
-    &nbsp;&nbsp;Method: GET<br>
-    &nbsp;&nbsp;Purpose: Get Correlation Figure for the corresponding VNF  
+	<h3>Get correlation figure for a VNF</h3>
+    <var>- URI: tng-sdk-analyze-weight/api/weight/v1/mgmt/"vnf_type"<br></var>
+    <var>&nbsp;&nbsp;Method: GET<br></var>
+    <var>&nbsp;&nbsp;Purpose: Get Correlation Figure for the corresponding VNF </var> 
     
 </body>
 </html>

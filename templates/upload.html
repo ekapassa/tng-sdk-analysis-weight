@@ -79,6 +79,7 @@
 							
 							<div class="desc">
 								<h3><a href="#">Upload a new dataset for a vnf</a></h3>
+								<h4>URI: tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"vnf_type" -F 'file=@FileName.csv'</h4>
 								<form enctype="multipart/form-data" method="post" name="fileinfo">
 									<div class="form-group">
 										<label>VNF Type</label>
@@ -89,7 +90,7 @@
 										<input class="btn btn-primary" type="submit"/>
 									</div>
 								</form>
-								<pre id="upload_result"></pre>
+								<pre id="upload_result" style="visibility:hidden"></pre>
 							</div>
 						</div>
 					</div>			
@@ -127,6 +128,7 @@
 		  
 		  oReq.open("POST", "http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"+vnf_id, true);
 		  oReq.onload = function(oEvent) {
+			$("#upload_result").css("visibility", "visible");
 			document.getElementById("upload_result").innerHTML = JSON.stringify(oReq.response, undefined, 2);
 		  };
 		  oReq.send(oData);
