@@ -51,13 +51,13 @@
 		<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
 		<aside id="fh5co-aside" role="complementary" class="border js-fullheight">
 
-			<h1 id="fh5co-logo"><a>5GTANGO SDK tools</a></h1>
+			<h1 id="fh5co-logo"><a>5GTANGO analyze weight tool</a></h1>
 			
 			<nav id="fh5co-main-menu" role="navigation">
 				<ul>
 					<li class="fh5co-active"><a href="{{ url_for('home') }}">Home</a></li>
-					<li><a href="{{ url_for('mgmt') }}">MGMT APIs</a></li>
-					<li><a href="{{ url_for('upload') }}">UPLOAD API</a></li>
+					<li><a href="{{ url_for('mgmt') }}">Management APIs</a></li>
+					<li><a href="{{ url_for('upload') }}">TRAIN FOR NEW VNF</a></li>
 					<li><a href="{{ url_for('weights') }}">GET WEIGHTS APIs</a></li>
 				</ul>
 			</nav>
@@ -92,7 +92,7 @@
 					   			<div class="col-md-8 col-md-offset-2 text-center js-fullheight slider-text">
 					   				<div class="slider-text-inner">
 					   					<h1>5GTANGO "tng-sdk-analyze-weight" Tool</h1>
-											<h2>A tool to provide the test developer an inside knowledge of his/her Network Service (NS) <a href="https://github.com/sonata-nfv/tng-sdk-analyze-weight" target="_blank">Github Repository</a></h2>
+											<h2>A tool to provide the test developer an inside knowledge of his/her Network Service (NS) <a style="color:white;" href="https://github.com/sonata-nfv/tng-sdk-analyze-weight" target="_blank">Github Repository</a></h2>
 											<p><a href="{{ url_for('apis') }}" target="_blank" class="btn btn-primary btn-learn">Learn More<i class="icon-arrow-right3"></i></a></p>
 					   				</div>
 					   			</div>
@@ -108,16 +108,10 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="fh5co-feature animate-box" data-animate-effect="fadeInLeft">
-							<div class="fh5co-icon">
-								<i class="icon-settings"></i>
-							</div>
 							<div class="fh5co-text">
 								<img src="{{ url_for('static',filename='images/weight-arch.png')}}"></img>	
 							</div>
 						</div>
-					</div>
-					<div class="col-md-6">
-						
 					</div>
 				</div>
 			</div>

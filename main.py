@@ -152,7 +152,7 @@ def correlation(ns_uuid):
         logger.info("Return weigth for provided NS")                                    
         return Response(json_enc().encode(dictionaries),  mimetype='application/json')        
     else:
-        logger.error("error", extra={"http_code": http_code})
+        logger.error("Error status code for retrieve NS from Catalogue != 200" + str(http_code))
     return ""
          
 @app.route('/tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/<vnf_type>', methods=['GET','POST'])
