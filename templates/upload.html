@@ -127,7 +127,7 @@
 		  
 		  oReq.open("POST", "http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"+vnf_id, true);
 		  oReq.onload = function(oEvent) {
-			document.getElementById("upload_result").style.visibility = "visible";
+			$("#upload_result").attr("visibility", "visible");
 			document.getElementById("upload_result").innerHTML = JSON.stringify(oReq.response, undefined, 2);
 		  };
 		  oReq.send(oData);
