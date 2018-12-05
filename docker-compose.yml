@@ -1,0 +1,15 @@
+version: '3'
+services:
+  tng-sdk-analysis-weight:
+    build: ./
+    ports:
+      - "8084:8084"
+    restart: always
+    links:
+      - mongo
+  mongo:
+    image: mongo:3.0.4
+    ports:
+      - "27017:27017"
+    command: --smallfiles --rest
+    restart: always
