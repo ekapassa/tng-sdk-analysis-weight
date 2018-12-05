@@ -225,4 +225,5 @@ def generate_fig_html(vnf_type):
 
 
 if __name__ == "__main__":
+    train()
     app.run(host='0.0.0.0', port=8084, debug=True)

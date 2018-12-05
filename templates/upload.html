@@ -89,7 +89,7 @@
 										<input class="btn btn-primary" type="submit"/>
 									</div>
 								</form>
-								<pre id="upload_result" hidden></pre>
+								<pre id="upload_result" style="visibility:hidden"></pre>
 							</div>
 						</div>
 					</div>			
@@ -127,7 +127,7 @@
 		  
 		  oReq.open("POST", "http://"+host+":8084/tng-sdk-analyze-weight/api/weight/v1/train/new/vnf/"+vnf_id, true);
 		  oReq.onload = function(oEvent) {
-			$("#upload_result").attr("visibility", "visible");
+			$("#upload_result").css("visibility", "visible");
 			document.getElementById("upload_result").innerHTML = JSON.stringify(oReq.response, undefined, 2);
 		  };
 		  oReq.send(oData);
