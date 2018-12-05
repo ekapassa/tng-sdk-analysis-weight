@@ -88,10 +88,10 @@ def get_http_code(ns_uuid):
     headers = {'Content-type': 'application/json'}
     try:
         response = requests.get(url, headers=headers)
-        logger.info("Result",  extra={"response": response})
+        logger.info("Result for get http code for ns retrieval",  extra={"response": response})
         return response.status_code
     except requests.exceptions.RequestException as e:  # This is the correct syntax
-        logger.error("An error occured",  extra={"error": e})
+        logger.error("An error occured fetching the NS",  extra={"error": e})
         return e
     
 def get_ns(ns_uuid):
@@ -99,10 +99,10 @@ def get_ns(ns_uuid):
     headers = {'Content-type': 'application/json'}
     try:
         response = requests.get(url, headers=headers)
-        logger.info("Result",  extra={"response": response})
+        logger.info("Result for get NS from catalogue",  extra={"response": response})
         return response.json()
     except requests.exceptions.RequestException as e:  # This is the correct syntax
-        logger.error("An error occured",  extra={"error": e})
+        logger.error("An error occured fetching NS",  extra={"error": e})
         return e
     
 def extract_vnfs(nsd):
