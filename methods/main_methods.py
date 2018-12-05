@@ -113,7 +113,7 @@ def extract_vnfs(nsd):
     return vnfs_id
 
 def train_vnf(vnf_type, file_name):     
-    d = pd.read_csv(UPLOAD_DADA_FOLDER+"\\"+file_name, index_col=0)
+    d = pd.read_csv(UPLOAD_DADA_FOLDER+"/"+file_name, index_col=0)
     fig_to_base64(d, vnf_type)
     df = pd.DataFrame(data = d)
     result = get_top_abs_correlations(df, 5) 
