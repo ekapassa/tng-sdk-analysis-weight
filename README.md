@@ -2,8 +2,55 @@
 
 # tng-sdk-analyze-weight [![Build Status](https://jenkins.sonata-nfv.eu/buildStatus/icon?job=tng-sdk-analyze-weight/master)](https://jenkins.sonata-nfv.eu/job/tng-sdk-analyze-weight/job/master/)   [![Join the chat at https://gitter.im/sonata-nfv/Lobby](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sonata-nfv/Lobby)
 
+5GTANGO analyze-weight-tool is part of the SONATA powered by 5GTANGO Service Development Kit (SDK). The current repository contains a python based application which uses data analysis libraries in order to analyze the performance metrics of the chained Virtual Network Functions (VNFs) in a Network Service (NS). Starting an offline learning proccess with data gathered from the performance tests of a NS or even from the production environment, it calculates and stores the dependencies between the monitoring metrics of VNFs in a NoSQL database. Then, providing rest APIs as well as a GUI, the end user can request and get those dependencies of his/her VNF, thus getting an inside knowledge of the NS's performance behaviour. Among others, the end user can also request dependencies of a list of VNFs while the ones that are yet unknown to the tool are stored in another collection of the database. The goal of the aforementioned tool is to provide the test developer of 5GTANGO an inside knowledge of his/her NS, and thus, having those in mind develop more targeted tests.
 
-5G TANGO SDK Analyze Weight repository
+##### Main Cababilities
+*  Get a list of the supported-known VNFs
+*  Get a list of the unsupported-unknown VNFs
+*  Get dependencies of the VNFs in a NS (providing NS uuid existed in the tng-cat)
+*  Get dependencies of an independed list of VNFs
+*  Train for a new VNF (providing a .csv file with the VNF's performance-monitoring data)
+*  Get correlation figure for a VNF (base64 format)
+
+##### Example of a VNF's dependencies    
+
+```json
+[
+  {
+    "_id": "5c080fbe5700524338a500ec",
+    "vnf": {
+      "vnf_id": "vpn_vnf"
+    },
+    "correlations": [
+      {
+        "level_0": "end_to_end_latency",
+        "level_1": "time_to_deploy_new_instance",
+        "values": 0.9999978642
+      },
+      {
+        "level_0": "number_of_streams",
+        "level_1": "ping",
+        "values": 0.9683217364
+      },
+      {
+        "level_0": "cpu_usage",
+        "level_1": "bandwidth",
+        "values": 0.7045926301
+      },
+      {
+        "level_0": "number_of_users",
+        "level_1": "mem_usage",
+        "values": 0.2736615039
+      },
+      {
+        "level_0": "throughput",
+        "level_1": "time_to_connect",
+        "values": 0.235993478
+      }
+    ]
+  }
+]
+```   
 
 ## Dependencies
 
